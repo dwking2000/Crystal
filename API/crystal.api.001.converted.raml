@@ -1,0 +1,1035 @@
+#%RAML 0.8
+title: Crystal Server API
+version: 1.0
+documentation:
+- title: Crystal Server API
+  content: This is a simple Crystal server API. You can find out more about Crystal at <a href='http://getcrystal.net'>http://getcrystal.net</a>  For this sample, you can use the api key 'get-crystal' for tests that need authorization (authorization filters)
+baseUri: https://crystal.getcrystal.net/api/01
+schemas:
+- Agent: |
+    {
+      "id": "Agent",
+      "title": "Agent",
+      "description": "Agent currently represents only users (persons that create logins). In the future will also represent code-agents (contracts, bots, etc.)",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "userStatus": {
+          "description": "User Status - active, inactive, banned",
+          "type": "integer",
+          "format": "int32"
+        },
+        "userlogin": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+- Agent-array: |
+    {
+      "type": "array",
+      "items": {
+        "id": "Agent",
+        "title": "Agent",
+        "description": "Agent currently represents only users (persons that create logins). In the future will also represent code-agents (contracts, bots, etc.)",
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "userStatus": {
+            "description": "User Status - active, inactive, banned",
+            "type": "integer",
+            "format": "int32"
+          },
+          "userlogin": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    }
+- Role-array: |
+    {
+      "type": "array",
+      "items": {
+        "id": "Role",
+        "title": "Role",
+        "description": "a Role represents permissions to a UNC path for CRUD and Execute operations.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "path": {
+            "description": "rest endpoint or registered contract endpoint (allows for regex wildcards) to resource(s) that this role can access or execute",
+            "type": "string"
+          },
+          "permissions": {
+            "description": "list of permissions for the resources in the path. Agents assigned this role will be allowed to perform GET/POST/DELETE/PATCH (read/update/delete) on the resource.",
+            "type": "array",
+            "items": {
+              "id": "Permission",
+              "title": "Permission",
+              "description": "a permission for read, write or execute on some unique URI that represents a function or resource. These resources will be the components of the governance scheme, e.g. they will be data or functions that in aggregate comprise a particular governance model.",
+              "type": "object",
+              "properties": {
+                "flags": {
+                  "description": "create, read, write, execute / or GET/POST",
+                  "type": "string"
+                },
+                "id": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "flags",
+                "id",
+                "name"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "path",
+          "permissions"
+        ]
+      }
+    }
+- Community: |
+    {
+      "id": "Community",
+      "title": "Community",
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "community description",
+          "type": "string"
+        },
+        "groups": {
+          "description": "list of groups (governance access list for this community)",
+          "type": "array",
+          "items": {
+            "id": "Group",
+            "title": "Group",
+            "description": "container for agents and roles. Groups allow the assignment of agents to roles",
+            "type": "object",
+            "properties": {
+              "Id": {
+                "description": "hash",
+                "type": "string"
+              },
+              "agents": {
+                "description": "list of agents in this group",
+                "type": "array",
+                "items": {
+                  "id": "Agent",
+                  "title": "Agent",
+                  "description": "Agent currently represents only users (persons that create logins). In the future will also represent code-agents (contracts, bots, etc.)",
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "firstName": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "lastName": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "userStatus": {
+                      "description": "User Status - active, inactive, banned",
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "userlogin": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "groupName": {
+                "type": "string"
+              },
+              "roles": {
+                "description": "list of roles allowed for agents in this group",
+                "type": "array",
+                "items": {
+                  "id": "Role",
+                  "title": "Role",
+                  "description": "a Role represents permissions to a UNC path for CRUD and Execute operations.",
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "description": "rest endpoint or registered contract endpoint (allows for regex wildcards) to resource(s) that this role can access or execute",
+                      "type": "string"
+                    },
+                    "permissions": {
+                      "description": "list of permissions for the resources in the path. Agents assigned this role will be allowed to perform GET/POST/DELETE/PATCH (read/update/delete) on the resource.",
+                      "type": "array",
+                      "items": {
+                        "id": "Permission",
+                        "title": "Permission",
+                        "description": "a permission for read, write or execute on some unique URI that represents a function or resource. These resources will be the components of the governance scheme, e.g. they will be data or functions that in aggregate comprise a particular governance model.",
+                        "type": "object",
+                        "properties": {
+                          "flags": {
+                            "description": "create, read, write, execute / or GET/POST",
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "flags",
+                          "id",
+                          "name"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "path",
+                    "permissions"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "Id",
+              "agents",
+              "groupName"
+            ]
+          }
+        },
+        "id": {
+          "description": "hash",
+          "type": "string"
+        },
+        "members": {
+          "description": "list of agents belonging to this community",
+          "type": "array",
+          "items": {
+            "id": "Agent",
+            "title": "Agent",
+            "description": "Agent currently represents only users (persons that create logins). In the future will also represent code-agents (contracts, bots, etc.)",
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string"
+              },
+              "firstName": {
+                "type": "string"
+              },
+              "id": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "lastName": {
+                "type": "string"
+              },
+              "password": {
+                "type": "string"
+              },
+              "userStatus": {
+                "description": "User Status - active, inactive, banned",
+                "type": "integer",
+                "format": "int32"
+              },
+              "userlogin": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        },
+        "name": {
+          "description": "community name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "groups",
+        "id",
+        "members",
+        "name"
+      ]
+    }
+- Contest: |
+    {
+      "id": "Contest",
+      "title": "Contest",
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "id": "Content",
+            "title": "Content",
+            "description": "the content for output based contests",
+            "type": "object",
+            "properties": {
+              "contentName": {
+                "type": "string"
+              },
+              "explainations": {
+                "type": "array",
+                "items": {
+                  "id": "Explanation",
+                  "title": "Explanation",
+                  "description": "content rating as text",
+                  "type": "object",
+                  "properties": {
+                    "contentId": {
+                      "description": "link to content being explained",
+                      "type": "string"
+                    },
+                    "description": {
+                      "description": "explanation description",
+                      "type": "string"
+                    },
+                    "explainedBy": {
+                      "description": "explainer id",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "explanation name",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "contentId",
+                    "description",
+                    "name"
+                  ]
+                }
+              },
+              "id": {
+                "type": "string"
+              },
+              "ratings": {
+                "type": "array",
+                "items": {
+                  "id": "Rating",
+                  "title": "Rating",
+                  "type": "object",
+                  "properties": {
+                    "contentId": {
+                      "description": "the content being rated",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "rating type",
+                      "type": "string"
+                    },
+                    "value": {
+                      "description": "rating value TODO: what is data type - string, number?",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "contentId",
+                    "type",
+                    "value"
+                  ]
+                }
+              },
+              "submitter": {
+                "id": "Agent",
+                "title": "Agent",
+                "description": "the creator or owner of the content",
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "userStatus": {
+                    "description": "User Status - active, inactive, banned",
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "userlogin": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            },
+            "required": [
+              "contentName",
+              "id",
+              "submitter"
+            ]
+          }
+        },
+        "contestType": {
+          "id": "ContestType",
+          "title": "ContestType",
+          "description": "the types of contests",
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "description",
+            "id",
+            "name"
+          ]
+        },
+        "creator": {
+          "id": "Agent",
+          "title": "Agent",
+          "description": "contest creator",
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "firstName": {
+              "type": "string"
+            },
+            "id": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "lastName": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "userStatus": {
+              "description": "User Status - active, inactive, banned",
+              "type": "integer",
+              "format": "int32"
+            },
+            "userlogin": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "description": "hash for this contest",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "contestType",
+        "creator",
+        "description",
+        "id",
+        "name"
+      ]
+    }
+- Role: |
+    {
+      "id": "Role",
+      "title": "Role",
+      "description": "a Role represents permissions to a UNC path for CRUD and Execute operations.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "description": "rest endpoint or registered contract endpoint (allows for regex wildcards) to resource(s) that this role can access or execute",
+          "type": "string"
+        },
+        "permissions": {
+          "description": "list of permissions for the resources in the path. Agents assigned this role will be allowed to perform GET/POST/DELETE/PATCH (read/update/delete) on the resource.",
+          "type": "array",
+          "items": {
+            "id": "Permission",
+            "title": "Permission",
+            "description": "a permission for read, write or execute on some unique URI that represents a function or resource. These resources will be the components of the governance scheme, e.g. they will be data or functions that in aggregate comprise a particular governance model.",
+            "type": "object",
+            "properties": {
+              "flags": {
+                "description": "create, read, write, execute / or GET/POST",
+                "type": "string"
+              },
+              "id": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "flags",
+              "id",
+              "name"
+            ]
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "path",
+        "permissions"
+      ]
+    }
+- Reputation: |
+    {
+      "id": "Reputation",
+      "title": "Reputation",
+      "description": "Reputation represented as a score, assigned to a person / agent or content",
+      "type": "object",
+      "properties": {
+        "defaultValue": {
+          "description": "the default value assigned initially when this rep type is first created",
+          "type": "integer",
+          "format": "int32"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "description": "hash - unique id for this reputation type",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "valueType": {
+          "description": "the value type used for this Identity Reputation. Expected value types are: HasValue (boolean), Range (Any range), Unlimited(Any value)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "defaultValue",
+        "id",
+        "name",
+        "valueType"
+      ]
+    }
+- Group: |
+    {
+      "id": "Group",
+      "title": "Group",
+      "description": "container for agents and roles. Groups allow the assignment of agents to roles",
+      "type": "object",
+      "properties": {
+        "Id": {
+          "description": "hash",
+          "type": "string"
+        },
+        "agents": {
+          "description": "list of agents in this group",
+          "type": "array",
+          "items": {
+            "id": "Agent",
+            "title": "Agent",
+            "description": "Agent currently represents only users (persons that create logins). In the future will also represent code-agents (contracts, bots, etc.)",
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string"
+              },
+              "firstName": {
+                "type": "string"
+              },
+              "id": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "lastName": {
+                "type": "string"
+              },
+              "password": {
+                "type": "string"
+              },
+              "userStatus": {
+                "description": "User Status - active, inactive, banned",
+                "type": "integer",
+                "format": "int32"
+              },
+              "userlogin": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        },
+        "groupName": {
+          "type": "string"
+        },
+        "roles": {
+          "description": "list of roles allowed for agents in this group",
+          "type": "array",
+          "items": {
+            "id": "Role",
+            "title": "Role",
+            "description": "a Role represents permissions to a UNC path for CRUD and Execute operations.",
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "name": {
+                "type": "string"
+              },
+              "path": {
+                "description": "rest endpoint or registered contract endpoint (allows for regex wildcards) to resource(s) that this role can access or execute",
+                "type": "string"
+              },
+              "permissions": {
+                "description": "list of permissions for the resources in the path. Agents assigned this role will be allowed to perform GET/POST/DELETE/PATCH (read/update/delete) on the resource.",
+                "type": "array",
+                "items": {
+                  "id": "Permission",
+                  "title": "Permission",
+                  "description": "a permission for read, write or execute on some unique URI that represents a function or resource. These resources will be the components of the governance scheme, e.g. they will be data or functions that in aggregate comprise a particular governance model.",
+                  "type": "object",
+                  "properties": {
+                    "flags": {
+                      "description": "create, read, write, execute / or GET/POST",
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "flags",
+                    "id",
+                    "name"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "path",
+              "permissions"
+            ]
+          }
+        }
+      },
+      "required": [
+        "Id",
+        "agents",
+        "groupName"
+      ]
+    }
+/agent:
+  /createWithList:
+    post:
+      body:
+        application/json:
+          schema: Agent-array
+      displayName: createAgentsWithListInput_
+      description: Creates list of agents with given list input
+      responses:
+        200:
+          description: Success
+  /{agentId}:
+    uriParameters:
+      agentId:
+        description: hash ID of agent that needs to be fetched
+        type: string
+        required: true
+        displayName: agentId
+    /roles:
+      uriParameters:
+        agentId:
+          type: string
+          required: true
+          displayName: agentId
+      get:
+        displayName: getAgentRolesByAgentId_
+        responses:
+          200:
+            description: Success
+            body:
+              application/json:
+                schema: Role-array
+          400:
+            description: Error 400
+    get:
+      displayName: getAgentById_
+      description: Find agent by ID
+      responses:
+        200:
+          description: Success
+          body:
+            application/json:
+              schema: Agent
+        400:
+          description: Error 400
+        404:
+          description: Error 404
+    post:
+      displayName: updateAgentWithForm_
+      description: Updates an agent by post of form data
+      responses:
+        200:
+          description: Success
+        405:
+          description: Error 405
+    delete:
+      displayName: deleteAgent_
+      description: Deletes an agent
+      responses:
+        400:
+          description: Error 400
+  /{agentlogin}:
+    uriParameters:
+      agentlogin:
+        type: string
+        required: true
+        displayName: agentlogin
+    get:
+      displayName: getAgentByName_
+      description: Get agent by login name
+      responses:
+        200:
+          description: return agent on success
+          body:
+            application/json:
+              schema: Agent
+        400:
+          description: Error 400
+        404:
+          description: Error 404
+    put:
+      body:
+        application/json:
+          schema: Agent
+      displayName: updateUser_
+      description: Updated agent
+      responses:
+        200:
+          description: Success
+        400:
+          description: Error 400
+        404:
+          description: Error 404
+    delete:
+      displayName: deleteUser_
+      description: Delete agent
+      responses:
+        400:
+          description: Error 400
+        404:
+          description: Error 404
+  /{reputationId}/{min}/{max}:
+    uriParameters:
+      reputationId:
+        type: string
+        required: true
+        displayName: reputationId
+      min:
+        type: integer
+        required: true
+        displayName: min
+      max:
+        type: integer
+        required: true
+        displayName: max
+    get:
+      displayName: getAgentsByReputationRange_
+      description: GetAgentsByReputation
+      responses:
+        200:
+          description: Success
+          body:
+            application/json:
+              schema: Agent-array
+        400:
+          description: Error 400
+  post:
+    body:
+      application/json:
+        schema: Agent
+    displayName: createAgent_
+    description: Create agent
+    responses:
+      200:
+        description: Success
+/community:
+  /{id}:
+    uriParameters:
+      id:
+        description: community id
+        type: string
+        required: true
+        displayName: id
+    get:
+      displayName: getCommunityById_
+      responses:
+        200:
+          description: Success
+          body:
+            application/json:
+              schema: Community
+  post:
+    displayName: createCommunity_
+    responses:
+      200:
+        description: OK
+/contest:
+  post:
+    body:
+      application/json:
+        schema: Contest
+    displayName: Create_creatContest_
+    description: create contest
+    responses:
+      200:
+        description: Success
+/role:
+  post:
+    body:
+      application/json:
+        schema: Role
+    displayName: createRole_
+    description: create a new role
+    responses:
+      200:
+        description: Success
+      400:
+        description: Error 400
+/roles/{agentId}:
+  uriParameters:
+    agentId:
+      type: string
+      required: true
+      displayName: agentId
+  get:
+    displayName: getRolesByAgentId_
+    responses:
+      200:
+        description: return role list on success
+        body:
+          application/json:
+            schema: Role-array
+/reputation:
+  post:
+    body:
+      application/json:
+        schema: Reputation
+    displayName: createReputation_
+    description: create a new reputation record
+    responses:
+      200:
+        description: OK
+/group:
+  /{groupId}/{roleId}:
+    uriParameters:
+      groupId:
+        type: string
+        required: true
+        displayName: groupId
+      roleId:
+        type: string
+        required: true
+        displayName: roleId
+    post:
+      displayName: Create_assignRoleToGroup_
+      responses:
+        200:
+          description: Success
+  post:
+    body:
+      application/json:
+        schema: Group
+    displayName: createGroup_
+    responses:
+      200:
+        description: Success
+/contract/{id}/{parameter}/{value}/{agentId}:
+  uriParameters:
+    id:
+      description: sha256 - the contract id
+      type: string
+      required: true
+      displayName: id
+    parameter:
+      description: sha256 - the parameter id
+      type: string
+      required: true
+      displayName: parameter
+    value:
+      description: the new value
+      type: string
+      required: true
+      displayName: value
+    agentId:
+      description: sha256 - updated by agent
+      type: string
+      required: true
+      displayName: agentId
+  put:
+    displayName: updateContractValue_
+    description: update a value used as an input parameter to a deployed solidity contract. Meant to be used for governance setting or tuning economy.
+    responses:
+      200:
+        description: Success
+/governance:
+  /send/{fromAddress}/{toAddress}/{token}/{denomination}/{amount}:
+    uriParameters:
+      fromAddress:
+        description: the sender address
+        type: string
+        required: true
+        displayName: fromAddress
+      toAddress:
+        description: the recipient address
+        type: string
+        required: true
+        displayName: toAddress
+      amount:
+        description: 'the amount (TODO: settle on the correct data type)'
+        type: integer
+        required: true
+        displayName: amount
+      token:
+        description: eth, crystal, etc.
+        type: string
+        required: true
+        displayName: token
+      denomination:
+        description: wei, szabo, etc.
+        type: string
+        required: true
+        displayName: denomination
+    post:
+      displayName: Create_sendTokens_
+      responses:
+        200:
+          description: OK
+  /distribute/{token}/{group}/{formula}:
+    uriParameters:
+      token:
+        type: string
+        required: true
+        displayName: token
+      group:
+        type: string
+        required: true
+        displayName: group
+      formula:
+        type: string
+        required: true
+        displayName: formula
+    post:
+      displayName: Create_distributeTokens_
+      responses:
+        200:
+          description: Success
