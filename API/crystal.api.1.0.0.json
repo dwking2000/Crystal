@@ -1,0 +1,1170 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "",
+    "title": "Crystal Server API",
+    "description": "This is a simple Crystal server API. You can find out more about Crystal at <a href='http://getcrystal.net'>http://getcrystal.net</a>  For this sample, you can use the api key 'get-crystal' for tests that need authorization (authorization filters)",
+    "license": {
+      "name": "MIT",
+      "url": "http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT"
+    }
+  },
+  "host": "crystal.getcrystal.net",
+  "basePath": "/api/01",
+  "securityDefinitions": {},
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/agent": {
+      "get": {
+        "description": "Get agent by login name query parameter",
+        "tags": [
+          "Agent"
+        ],
+        "operationId": "getAgentByName_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "agentlogin",
+            "in": "query",
+            "required": true,
+            "x-is-map": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return agent on success",
+            "schema": {
+              "$ref": "#/definitions/Agent"
+            }
+          },
+          "400": {
+            "description": "Error 400"
+          },
+          "404": {
+            "description": "Error 404"
+          }
+        }
+      },
+      "post": {
+        "description": "Create agent",
+        "tags": [
+          "Agent"
+        ],
+        "operationId": "createAgent_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "x-is-map": false,
+            "schema": {
+              "$ref": "#/definitions/Agent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete agent by user login",
+        "tags": [
+          "Agent"
+        ],
+        "operationId": "deleteUser_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "agentlogin",
+            "in": "query",
+            "required": true,
+            "x-is-map": false,
+            "type": "string",
+            "description": "name that need to be deleted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Error 400"
+          },
+          "404": {
+            "description": "Error 404"
+          }
+        }
+      },
+      "patch": {
+        "description": "Update agent (user) via PATCH with json body",
+        "tags": [
+          "Agent"
+        ],
+        "operationId": "updateAgent_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "x-is-map": false,
+            "schema": {
+              "$ref": "#/definitions/Agent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Error 400"
+          },
+          "404": {
+            "description": "Error 404"
+          }
+        }
+      }
+    },
+    "/agent/createWithList": {
+      "post": {
+        "description": "Creates list of agents with given list input",
+        "tags": [
+          "Agent"
+        ],
+        "operationId": "createAgentsWithListInput_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "x-is-map": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Agent"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/agent/roles": {
+      "get": {
+        "description": "get agent roles by agentID query parameter",
+        "tags": [
+          "Agent"
+        ],
+        "operationId": "getAgentRolesByAgentId_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "agentId",
+            "in": "query",
+            "required": true,
+            "x-is-map": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Role"
+              }
+            }
+          },
+          "400": {
+            "description": "Error 400"
+          }
+        }
+      }
+    },
+    "/community/{id}": {
+      "get": {
+        "description": "gets a Community by it's ID",
+        "tags": [
+          "Community"
+        ],
+        "operationId": "getCommunityById_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string",
+            "description": "community id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Community"
+            }
+          }
+        }
+      }
+    },
+    "/community": {
+      "post": {
+        "description": "create a new Community",
+        "tags": [
+          "Community"
+        ],
+        "operationId": "createCommunity_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/contest": {
+      "post": {
+        "description": "create contest",
+        "tags": [
+          "Contest"
+        ],
+        "operationId": "createContest_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "x-is-map": false,
+            "description": "body as contest object",
+            "schema": {
+              "$ref": "#/definitions/Contest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/role": {
+      "post": {
+        "description": "create a new role",
+        "tags": [
+          "Access"
+        ],
+        "operationId": "createRole_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "x-is-map": false,
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Error 400"
+          }
+        }
+      }
+    },
+    "/roles": {
+      "get": {
+        "description": "get Roles By AgentId",
+        "tags": [
+          "Access"
+        ],
+        "operationId": "getRolesByAgentId_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "agentId",
+            "in": "query",
+            "required": true,
+            "x-is-map": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return role list on success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Role"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/governance/send/{fromAddress}/{toAddress}/{token}/{denomination}/{amount}": {
+      "post": {
+        "description": "sends tokens to from an address to an address",
+        "tags": [
+          "Governance"
+        ],
+        "operationId": "Create_sendTokens_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "fromAddress",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string",
+            "description": "the sender address"
+          },
+          {
+            "name": "toAddress",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string",
+            "description": "the recipient address"
+          },
+          {
+            "name": "amount",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "integer",
+            "format": "int64",
+            "description": "the amount (TODO: settle on the correct data type)"
+          },
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string",
+            "description": "eth, crystal, etc."
+          },
+          {
+            "name": "denomination",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string",
+            "description": "wei, szabo, etc."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/reputation": {
+      "post": {
+        "description": "create a new reputation record",
+        "tags": [
+          "Reputation"
+        ],
+        "operationId": "createReputation_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "x-is-map": false,
+            "description": "new reputation record",
+            "schema": {
+              "$ref": "#/definitions/Reputation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/group": {
+      "post": {
+        "description": "create a new Group",
+        "tags": [
+          "Access"
+        ],
+        "operationId": "createGroup_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "x-is-map": false,
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/group/{groupId}/{roleId}": {
+      "post": {
+        "description": "assign a Role to a Group",
+        "tags": [
+          "Access"
+        ],
+        "operationId": "Create_assignRoleToGroup_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string"
+          },
+          {
+            "name": "roleId",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/agent/{reputationId}/{min}/{max}": {
+      "get": {
+        "description": "GetAgentsByReputation",
+        "tags": [
+          "Reputation"
+        ],
+        "operationId": "getAgentsByReputationRange_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "reputationId",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string",
+            "description": "the reputationId"
+          },
+          {
+            "name": "min",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "integer",
+            "format": "int32",
+            "description": "the min reputation to query fo"
+          },
+          {
+            "name": "max",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "integer",
+            "format": "int32",
+            "description": "the max reputation to query for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Agent"
+              }
+            }
+          },
+          "400": {
+            "description": "Error 400"
+          }
+        }
+      }
+    },
+    "/governance/distribute/{token}/{group}/{formula}": {
+      "post": {
+        "description": "distributes tokens to a group based on the formula",
+        "tags": [
+          "Governance"
+        ],
+        "operationId": "Create_distributeTokens_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string"
+          },
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string"
+          },
+          {
+            "name": "formula",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/contract/{id}/{parameter}/{value}/{agentId}": {
+      "put": {
+        "description": "update a value used as an input parameter to a deployed solidity contract. Meant to be used for governance setting or tuning economy.",
+        "tags": [
+          "Governance"
+        ],
+        "operationId": "updateContractValue_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string",
+            "description": "sha256 - the contract id"
+          },
+          {
+            "name": "parameter",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string",
+            "description": "sha256 - the parameter id"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string",
+            "description": "the new value"
+          },
+          {
+            "name": "agentId",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string",
+            "description": "sha256 - updated by agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/contest/{communityid}": {
+      "get": {
+        "description": "get all contests for a community",
+        "tags": [
+          "Contest"
+        ],
+        "operationId": "getContestsByCommunity_",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "communityid",
+            "in": "path",
+            "required": true,
+            "x-is-map": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Contest"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "EndpointRegistry": {
+      "title": "EndpointRegistry",
+      "description": "a registry that contains a map of endpoints that can be read or executed. Registry is expected to live on the blockchain but this API will be backed by a smart caching algorithm that will proxy calls to the blockchain registry.",
+      "type": "object",
+      "properties": {
+        "key": {
+          "description": "hash / address of registry entry",
+          "type": "string"
+        },
+        "endpoint": {
+          "description": "mapped endpoint",
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "endpoint"
+      ]
+    },
+    "Agent": {
+      "title": "Agent",
+      "description": "Agent currently represents only users (persons that create logins). In the future will also represent code-agents (contracts, bots, etc.)",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "userStatus": {
+          "description": "User Status - active, inactive, banned",
+          "type": "integer",
+          "format": "int32"
+        },
+        "userlogin": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "Community": {
+      "title": "Community",
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "community description",
+          "type": "string"
+        },
+        "groups": {
+          "description": "list of groups (governance access list for this community)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Group"
+          }
+        },
+        "id": {
+          "description": "hash",
+          "type": "string"
+        },
+        "members": {
+          "description": "list of agents belonging to this community",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Agent"
+          }
+        },
+        "name": {
+          "description": "community name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "groups",
+        "id",
+        "members",
+        "name"
+      ]
+    },
+    "Group": {
+      "title": "Group",
+      "description": "container for agents and roles. Groups allow the assignment of agents to roles",
+      "type": "object",
+      "properties": {
+        "Id": {
+          "description": "hash",
+          "type": "string"
+        },
+        "agents": {
+          "description": "list of agents in this group",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Agent"
+          }
+        },
+        "groupName": {
+          "type": "string"
+        },
+        "roles": {
+          "description": "list of roles allowed for agents in this group",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Role"
+          }
+        }
+      },
+      "required": [
+        "Id",
+        "agents",
+        "groupName"
+      ]
+    },
+    "Role": {
+      "title": "Role",
+      "description": "a Role represents permissions to a UNC path for CRUD and Execute operations.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "description": "rest endpoint or registered contract endpoint (allows for regex wildcards) to resource(s) that this role can access or execute",
+          "type": "string"
+        },
+        "permissions": {
+          "description": "list of permissions for the resources in the path. Agents assigned this role will be allowed to perform GET/POST/DELETE/PATCH (read/update/delete) on the resource.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Permission"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "path",
+        "permissions"
+      ]
+    },
+    "Permission": {
+      "title": "Permission",
+      "description": "a permission for read, write or execute on some unique URI that represents a function or resource. These resources will be the components of the governance scheme, e.g. they will be data or functions that in aggregate comprise a particular governance model.",
+      "type": "object",
+      "properties": {
+        "flags": {
+          "description": "create, read, write, execute / or GET/POST",
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "flags",
+        "id",
+        "name"
+      ]
+    },
+    "Content": {
+      "title": "Content",
+      "description": "the content for output based contests",
+      "type": "object",
+      "properties": {
+        "contentName": {
+          "type": "string"
+        },
+        "explainations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Explanation"
+          }
+        },
+        "id": {
+          "type": "string"
+        },
+        "ratings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Rating"
+          }
+        },
+        "submitter": {
+          "description": "the creator or owner of the content",
+          "$ref": "#/definitions/Agent"
+        }
+      },
+      "required": [
+        "contentName",
+        "id",
+        "submitter"
+      ]
+    },
+    "Explanation": {
+      "title": "Explanation",
+      "description": "content rating as text",
+      "type": "object",
+      "properties": {
+        "contentId": {
+          "description": "link to content being explained",
+          "type": "string"
+        },
+        "description": {
+          "description": "explanation description",
+          "type": "string"
+        },
+        "explainedBy": {
+          "description": "explainer id",
+          "type": "string"
+        },
+        "name": {
+          "description": "explanation name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "contentId",
+        "description",
+        "name"
+      ]
+    },
+    "Rating": {
+      "title": "Rating",
+      "type": "object",
+      "properties": {
+        "contentId": {
+          "description": "the content being rated",
+          "type": "string"
+        },
+        "type": {
+          "description": "rating type",
+          "type": "string"
+        },
+        "value": {
+          "description": "rating value TODO: what is data type - string, number?",
+          "type": "string"
+        }
+      },
+      "required": [
+        "contentId",
+        "type",
+        "value"
+      ]
+    },
+    "Contest": {
+      "title": "Contest",
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Content"
+          }
+        },
+        "contestType": {
+          "description": "the types of contests",
+          "$ref": "#/definitions/ContestType"
+        },
+        "creator": {
+          "description": "contest creator",
+          "$ref": "#/definitions/Agent"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "description": "hash for this contest",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "communityId": {
+          "description": "community this contest belongs to",
+          "type": "string"
+        }
+      },
+      "required": [
+        "contestType",
+        "creator",
+        "description",
+        "id",
+        "name",
+        "communityId"
+      ]
+    },
+    "ContestType": {
+      "title": "ContestType",
+      "description": "the types of contests",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "id",
+        "name"
+      ]
+    },
+    "Reputation": {
+      "title": "Reputation",
+      "description": "Reputation represented as a score, assigned to a person / agent or content",
+      "type": "object",
+      "properties": {
+        "defaultValue": {
+          "description": "the default value assigned initially when this rep type is first created",
+          "type": "integer",
+          "format": "int32"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "description": "hash - unique id for this reputation type",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "valueType": {
+          "description": "the value type used for this Identity Reputation. Expected value types are: HasValue (boolean), Range (Any range), Unlimited(Any value)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "defaultValue",
+        "id",
+        "name",
+        "valueType"
+      ]
+    },
+    "AgentRole": {
+      "title": "AgentRole",
+      "description": "a Agents role (permissions for governance). This is distinct from the Group Roles and is debatable whether we need this. Is it a special case or can the general case of a Group provide everything we need.",
+      "type": "object",
+      "properties": {
+        "agentId": {
+          "type": "string"
+        },
+        "id": {
+          "description": "hash",
+          "type": "string"
+        },
+        "roleId": {
+          "type": "string"
+        },
+        "status": {
+          "description": "enabled / disabled (may not need this - perhaps redundant (agend should just be removed from the role)",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "id",
+        "status"
+      ]
+    },
+    "Contract": {
+      "title": "Contract",
+      "description": "Container for solidity contract parameters",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "contract name",
+          "type": "string"
+        },
+        "description": {
+          "description": "contract description",
+          "type": "string"
+        },
+        "parameters": {
+          "description": "array of parameters",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContractParameter"
+          }
+        },
+        "contractId": {
+          "description": "sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "contractId"
+      ]
+    },
+    "ContractParameter": {
+      "title": "ContractParameter",
+      "description": "metadata about solidity contract parameters",
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string"
+        },
+        "parameterName": {
+          "description": "human readable parameter name. TODO: remove - may not need human readable",
+          "type": "string"
+        },
+        "valueType": {
+          "description": "string, int, boolean, etc.",
+          "type": "string"
+        },
+        "parameterId": {
+          "description": "unique hash representing this instance of a contract parameter",
+          "type": "string"
+        },
+        "defaultValue": {
+          "type": "string"
+        },
+        "validationRegex": {
+          "description": "regex to enforce input validation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "contractId",
+        "parameterName",
+        "valueType",
+        "parameterId",
+        "defaultValue",
+        "validationRegex"
+      ]
+    }
+  }
+}
